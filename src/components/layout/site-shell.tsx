@@ -12,16 +12,23 @@ export async function SiteShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <Navbar storeName={settings.storeName} />
+      <Navbar
+        storeName={settings.storeName}
+        logo={settings.logo}
+      />
+
       <main className="flex-1">{children}</main>
+
       <Footer
         storeName={settings.storeName}
+        logo={settings.logo}
         categories={categories}
         instagram={settings.instagram}
         facebook={settings.facebook}
         email={settings.email}
         phone={settings.phone}
       />
+
       <WhatsAppButton phone={settings.whatsapp} />
     </div>
   );

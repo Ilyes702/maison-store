@@ -15,7 +15,13 @@ export type ProductCardData = {
   stock?: number | null;
 };
 
-export function ProductCard({ product }: { product: ProductCardData }) {
+export function ProductCard({
+  product,
+  currency = "MAD",
+}: {
+  product: ProductCardData;
+  currency?: string;
+}) {
   const discount = getDiscountPercent(product.price, product.originalPrice);
   const primary = product.images[0]?.url;
   const secondary = product.images[1]?.url;
@@ -35,6 +41,7 @@ export function ProductCard({ product }: { product: ProductCardData }) {
             }`}
           />
         )}
+
         {secondary && (
           <Image
             src={secondary}
@@ -48,7 +55,9 @@ export function ProductCard({ product }: { product: ProductCardData }) {
         <div className="absolute top-3 right-3 flex flex-col gap-1.5">
           {product.isNew && <Badge kind="new">جديد</Badge>}
           {discount && <Badge kind="sale">خصم {discount}%</Badge>}
-          {product.isBestSeller && <Badge kind="best">الأكثر مبيعاً</Badge>}
+          {product.isBestSeller && (
+            <Badge kind="best">الأكثر مبيعاً</Badge>
+          )}
         </div>
 
         {outOfStock && (
@@ -68,7 +77,13 @@ export function ProductCard({ product }: { product: ProductCardData }) {
         <h3 className="text-sm text-ink-soft transition-colors group-hover:text-ink line-clamp-1">
           {product.name}
         </h3>
-        <PriceTag price={product.price} originalPrice={product.originalPrice} size="sm" />
+
+        <PriceTag
+          price={product.price}
+          originalPrice={product.originalPrice}
+          currency={currency}
+          size="sm"
+        />
       </div>
     </Link>
   );

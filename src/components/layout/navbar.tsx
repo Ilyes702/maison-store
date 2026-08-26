@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Search, ShoppingBag } from "lucide-react";
 import { MobileMenu } from "./mobile-menu";
 import { NavbarSticky } from "./navbar-sticky";
@@ -13,14 +14,33 @@ const links = [
   { href: "/contact", label: "تواصل معنا" },
 ];
 
-export function Navbar({ storeName = "MAISON" }: { storeName?: string }) {
+export function Navbar({
+  storeName = "MAISON",
+  logo,
+}: {
+  storeName?: string;
+  logo?: string | null;
+}) {
   return (
     <NavbarSticky>
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-8">
         <div className="flex items-center gap-3">
           <MobileMenu links={links} />
-          <Link href="/" className="font-display text-2xl tracking-wide">
-            {storeName}
+
+          <Link href="/" className="flex items-center">
+            {logo ? (
+              <Image
+                src={logo}
+                alt={storeName}
+                width={140}
+                height={50}
+                className="h-10 w-auto object-contain"
+              />
+            ) : (
+              <span className="font-display text-2xl tracking-wide">
+                {storeName}
+              </span>
+            )}
           </Link>
         </div>
 
@@ -40,6 +60,7 @@ export function Navbar({ storeName = "MAISON" }: { storeName?: string }) {
           <Link href="/shop" aria-label="بحث" className="p-1">
             <Search size={20} />
           </Link>
+
           <Link href="/cart" aria-label="السلة" className="relative p-1">
             <ShoppingBag size={20} />
             <CartCount />

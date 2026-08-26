@@ -6,10 +6,12 @@ export function FeaturedProductsSection({
   title,
   products,
   viewAllHref = "/shop",
+  currency = "MAD",
 }: {
   title: string;
   products: ProductCardData[];
   viewAllHref?: string;
+  currency?: string;
 }) {
   if (products.length === 0) return null;
 
@@ -17,11 +19,13 @@ export function FeaturedProductsSection({
     <section className="mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-24">
       <div className="mb-10 flex items-end justify-between">
         <h2 className="font-display text-3xl text-ink">{title}</h2>
+
         <Link href={viewAllHref} className="text-sm text-accent hover:underline">
-          عرض الكل ←
+          عرض الكل →
         </Link>
       </div>
-      <ProductGrid products={products} />
+
+      <ProductGrid products={products} currency={currency} />
     </section>
   );
 }

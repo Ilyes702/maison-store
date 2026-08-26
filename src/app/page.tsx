@@ -4,7 +4,7 @@ import { CategoriesSection } from "@/components/home/categories-section";
 import { FeaturedProductsSection } from "@/components/home/featured-products-section";
 import { PromoBanner } from "@/components/home/promo-banner";
 import { WhyChooseUs } from "@/components/home/why-choose-us";
-import { getHomepageContent } from "@/lib/data/settings";
+import { getHomepageContent, getSettings } from "@/lib/data/settings";
 import {
   getAllCategories,
   getFeaturedProducts,
@@ -12,11 +12,12 @@ import {
 } from "@/lib/data/products";
 
 export default async function HomePage() {
-  const [content, categories, featured, newArrivals] = await Promise.all([
+  const [content, categories, featured, newArrivals, settings] = await Promise.all([
     getHomepageContent(),
     getAllCategories(),
     getFeaturedProducts(),
     getNewArrivals(8),
+    getSettings(),
   ]);
 
   return (
@@ -30,7 +31,11 @@ export default async function HomePage() {
 
       <CategoriesSection categories={categories} />
 
-      <FeaturedProductsSection title="منتجات مختارة" products={featured} />
+      <FeaturedProductsSection
+        title="منتجات مختارة"
+        products={featured}
+        currency={settings.currency}
+      />
 
       <PromoBanner
         title={content.promoTitle || ""}
@@ -41,6 +46,7 @@ export default async function HomePage() {
       <FeaturedProductsSection
         title="المجموعة الجديدة"
         products={newArrivals}
+        currency={settings.currency}
         viewAllHref="/shop?new=1"
       />
 

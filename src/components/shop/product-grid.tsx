@@ -1,7 +1,13 @@
-import { ProductCard, ProductCardData } from "./product-card";
+﻿import { ProductCard, ProductCardData } from "./product-card";
 import { EmptyState } from "@/components/ui/empty-state";
 
-export function ProductGrid({ products }: { products: ProductCardData[] }) {
+export function ProductGrid({
+  products,
+  currency = "MAD",
+}: {
+  products: ProductCardData[];
+  currency?: string;
+}) {
   if (products.length === 0) {
     return (
       <EmptyState
@@ -14,8 +20,12 @@ export function ProductGrid({ products }: { products: ProductCardData[] }) {
   return (
     <div className="grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-3 lg:grid-cols-4">
       {products.map((p, i) => (
-        <div key={p.slug} className="animate-fade-up" style={{ animationDelay: `${(i % 8) * 60}ms` }}>
-          <ProductCard product={p} />
+        <div
+          key={p.slug}
+          className="animate-fade-up"
+          style={{ animationDelay: `${(i % 8) * 60}ms` }}
+        >
+          <ProductCard product={p} currency={currency} />
         </div>
       ))}
     </div>

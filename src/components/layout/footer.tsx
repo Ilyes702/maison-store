@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 function InstagramIcon() {
   return (
@@ -20,6 +21,7 @@ function FacebookIcon() {
 
 export function Footer({
   storeName = "MAISON",
+  logo,
   categories = [] as { name: string; slug: string }[],
   instagram,
   facebook,
@@ -27,6 +29,7 @@ export function Footer({
   phone,
 }: {
   storeName?: string;
+  logo?: string | null;
   categories?: { name: string; slug: string }[];
   instagram?: string | null;
   facebook?: string | null;
@@ -38,18 +41,44 @@ export function Footer({
       <div className="mx-auto max-w-7xl px-5 py-14 md:px-8">
         <div className="grid grid-cols-2 gap-10 md:grid-cols-4">
           <div className="col-span-2 md:col-span-1">
-            <h3 className="font-display text-2xl">{storeName}</h3>
+
+            <div className="mb-4">
+              {logo ? (
+                <Image
+                  src={logo}
+                  alt={storeName}
+                  width={140}
+                  height={50}
+                  className="h-10 w-auto object-contain"
+                />
+              ) : (
+                <h3 className="font-display text-2xl">{storeName}</h3>
+              )}
+            </div>
+
             <p className="mt-3 text-sm text-paper/60">
               أزياء عصرية مصممة لتعكس شخصيتك، جودة تدوم وأسلوب لا يشيخ.
             </p>
+
             <div className="mt-4 flex gap-3">
               {instagram && (
-                <Link href={instagram} target="_blank" aria-label="Instagram" className="opacity-70 hover:opacity-100">
+                <Link
+                  href={instagram}
+                  target="_blank"
+                  aria-label="Instagram"
+                  className="opacity-70 hover:opacity-100"
+                >
                   <InstagramIcon />
                 </Link>
               )}
+
               {facebook && (
-                <Link href={facebook} target="_blank" aria-label="Facebook" className="opacity-70 hover:opacity-100">
+                <Link
+                  href={facebook}
+                  target="_blank"
+                  aria-label="Facebook"
+                  className="opacity-70 hover:opacity-100"
+                >
                   <FacebookIcon />
                 </Link>
               )}
@@ -71,7 +100,10 @@ export function Footer({
             <ul className="flex flex-col gap-2 text-sm text-paper/60">
               {categories.slice(0, 5).map((c) => (
                 <li key={c.slug}>
-                  <Link href={`/shop?category=${c.slug}`} className="hover:text-paper">
+                  <Link
+                    href={`/shop?category=${c.slug}`}
+                    className="hover:text-paper"
+                  >
                     {c.name}
                   </Link>
                 </li>

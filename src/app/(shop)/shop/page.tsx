@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { getSettings } from "@/lib/data/settings";
 import { SiteShell } from "@/components/layout/site-shell";
 import { ShopFilters } from "@/components/shop/shop-filters";
 import { ProductGrid } from "@/components/shop/product-grid";
@@ -26,8 +27,15 @@ type SearchParams = Promise<{
   sort?: string;
 }>;
 
-async function ShopResults({ searchParams }: { searchParams: SearchParams }) {
+async function ShopResults({
+  searchParams,
+  currency,
+}: {
+  searchParams: SearchParams;
+  currency: string;
+}) {
   const sp = await searchParams;
+
   const products = await getProducts({
     search: sp.q,
     categorySlug: sp.category,
@@ -40,8 +48,14 @@ async function ShopResults({ searchParams }: { searchParams: SearchParams }) {
 
   return (
     <>
-      <p className="mb-6 text-sm text-stone">{products.length} منتج</p>
-      <ProductGrid products={products} />
+      <p className="mb-6 text-sm text-stone">
+        {products.length} منتج
+      </p>
+
+      <ProductGrid
+        products={products}
+        currency={currency}
+      />
     </>
   );
 }
@@ -61,24 +75,41 @@ export default async function ShopPage({
 }: {
   searchParams: SearchParams;
 }) {
-  const [categories, colors, sizes] = await Promise.all([
+  const [categories, colors, sizes, settings] = await Promise.all([
     getAllCategories(),
     getAllColors(),
     getAllSizes(),
+    getSettings(),
   ]);
 
   return (
     <SiteShell>
       <div className="mx-auto max-w-7xl px-5 py-10 md:px-8">
-        <h1 className="font-display text-3xl text-ink mb-1">المتجر</h1>
-        <p className="mb-6 text-sm text-stone">اكتشف كل تشكيلتنا من القطع المختارة بعناية</p>
+        <h1 className="font-display text-3xl text-ink mb-1">
+          المتجر
+        </h1>
 
-        <Suspense fallback={<div className="mb-8 h-14 w-full animate-pulse rounded-full bg-paper-dim" />}>
-          <ShopFilters categories={categories} colors={colors} sizes={sizes} />
+        <p className="mb-6 text-sm text-stone">
+          اكتشف كل تشكيلتنا من القطع المختارة بعناية
+        </p>
+
+        <Suspense
+          fallback={
+            <div className="mb-8 h-14 w-full animate-pulse rounded-full bg-paper-dim" />
+          }
+        >
+          <ShopFilters
+            categories={categories}
+            colors={colors}
+            sizes={sizes}
+          />
         </Suspense>
 
         <Suspense fallback={<ShopSkeleton />}>
-          <ShopResults searchParams={searchParams} />
+          <ShopResults
+            searchParams={searchParams}
+            currency={settings.currency}
+          />
         </Suspense>
       </div>
     </SiteShell>

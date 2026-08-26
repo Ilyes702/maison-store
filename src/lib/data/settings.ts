@@ -1,8 +1,10 @@
-import { db } from "@/db";
+﻿import { db } from "@/db";
 import { settings, homepage } from "@/db/schema";
 import { eq } from "drizzle-orm";
+import { unstable_noStore } from "next/cache";
 
 export async function getSettings() {
+  unstable_noStore();
   const row = await db.query.settings.findFirst({
     where: eq(settings.id, "main"),
   });
@@ -18,7 +20,7 @@ export async function getSettings() {
       instagram: "",
       facebook: "",
       address: "",
-      deliveryInfo: "الدفع عند الاستلام",
+      deliveryInfo: "ط§ظ„ط¯ظپط¹ ط¹ظ†ط¯ ط§ظ„ط§ط³طھظ„ط§ظ…",
       codEnabled: true,
     }
   );
@@ -42,12 +44,12 @@ export async function getHomepageContent() {
   return (
     row || {
       id: "main",
-      heroTitle: "خزانتك الجديدة تبدأ من هنا",
-      heroSubtitle: "قطع مختارة بعناية لأسلوب يومي أنيق وعصري",
+      heroTitle: "ط®ط²ط§ظ†طھظƒ ط§ظ„ط¬ط¯ظٹط¯ط© طھط¨ط¯ط£ ظ…ظ† ظ‡ظ†ط§",
+      heroSubtitle: "ظ‚ط·ط¹ ظ…ط®طھط§ط±ط© ط¨ط¹ظ†ط§ظٹط© ظ„ط£ط³ظ„ظˆط¨ ظٹظˆظ…ظٹ ط£ظ†ظٹظ‚ ظˆط¹طµط±ظٹ",
       heroImage: "",
-      heroCta: "تسوق الآن",
-      promoTitle: "تخفيضات تصل إلى 30%",
-      promoSubtitle: "لفترة محدودة على مجموعة مختارة",
+      heroCta: "طھط³ظˆظ‚ ط§ظ„ط¢ظ†",
+      promoTitle: "طھط®ظپظٹط¶ط§طھ طھطµظ„ ط¥ظ„ظ‰ 30%",
+      promoSubtitle: "ظ„ظپطھط±ط© ظ…ط­ط¯ظˆط¯ط© ط¹ظ„ظ‰ ظ…ط¬ظ…ظˆط¹ط© ظ…ط®طھط§ط±ط©",
       promoImage: "",
     }
   );
@@ -65,3 +67,5 @@ export async function updateHomepageContent(
     await db.insert(homepage).values({ id: "main", ...data } as any);
   }
 }
+
+
