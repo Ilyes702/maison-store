@@ -2,6 +2,8 @@ import { AdminHeader } from "@/components/admin/admin-header";
 import { SettingsForm } from "@/components/admin/settings-form";
 import { getSettings } from "@/lib/data/settings";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = { title: "الإعدادات" };
 
 export default async function AdminSettingsPage() {
@@ -15,3 +17,5 @@ export default async function AdminSettingsPage() {
     </div>
   );
 }
+
+
