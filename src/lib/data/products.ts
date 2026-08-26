@@ -8,7 +8,7 @@ import {
   sizes,
   categories,
 } from "@/db/schema";
-import { eq, and, desc, asc, like, gte, lte, sql } from "drizzle-orm";
+import { eq, and, desc, asc, ilike, gte, lte, sql } from "drizzle-orm";
 
 export type ProductFilters = {
   search?: string;
@@ -62,7 +62,7 @@ export async function getProducts(filters: ProductFilters = {}) {
   const conditions = [eq(products.isActive, true)];
 
   if (filters.search) {
-    conditions.push(like(products.name, `%${filters.search}%`));
+    conditions.push(ilike(products.name, `%${filters.search}%`));
   }
   if (filters.minPrice !== undefined) {
     conditions.push(gte(products.price, filters.minPrice));
